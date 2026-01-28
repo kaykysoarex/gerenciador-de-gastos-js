@@ -32,3 +32,23 @@ botao.addEventListener('click', () => {
 input.addEventListener('input', () => {
   msg.textContent = ''
 })
+
+let gastos = carregaArray()
+
+function salvaArray(array) {
+  const arrayTrans = JSON.stringify(array)
+  localStorage.setItem('arrayGastos', arrayTrans) //nesta funçao recebo um parametro de array, trannformo meu array em string, e salvo ele em localStorage.
+  //transformo em string antes de salvar, pois localStorage so aceita string
+}
+
+function carregaArray() {
+  const buscaItem = JSON.parse(localStorage.getItem('arrayGastos') || '[]')
+  return buscaItem /*“Busca os gastos salvos.
+Se não existir nada, usa um array vazio.
+Converte de texto para array.
+Entrega o array.”*/
+//Json.parse: converte de texto para array
+//JSON.stringify: converte de array para texto
+}
+
+salvaArray(gastos)
