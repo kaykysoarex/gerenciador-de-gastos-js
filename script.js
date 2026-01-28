@@ -2,6 +2,8 @@ const input = document.querySelector('#input')
 const botao = document.querySelector('#btn')
 const msg = document.querySelector('#mensagem')
 const valorTotal = document.querySelector('#total')
+const container = document.querySelector('#container')
+const inputDescricao = document.querySelector('#descricao')
 
 function mensagemDeErro(mensagem) {
   msg.textContent = mensagem
@@ -12,11 +14,12 @@ botao.addEventListener('click', () => {
   const converteNumber = Number(inputValor)
 
   const valorDigitado = input.value
-
-  const totalGastos = { valor: Number(valorDigitado) }
-  gastos.push(totalGastos)
-  salvaArray(gastos)
-  mostraTotal() //// Atualiza e recalcula o total de gastos a cada validação
+  const valorDescricao = inputDescricao.value
+  const totalGastos =
+  {
+    valor: Number(valorDigitado),
+    descricao: valorDescricao
+  }
 
   if (inputValor === '') {
     mensagemDeErro('Campo vazio!')
@@ -33,6 +36,17 @@ botao.addEventListener('click', () => {
     return
   }
 
+  if (valorDescricao.trim() === '') {
+    mensagemDeErro('Campo descrição vazio!')
+    return
+  }
+  inputDescricao.value = ''
+  gastos.push(totalGastos)
+
+  salvaArray(gastos)
+  mostraTotal() //// Atualiza e recalcula o total de gastos a cada validação
+  renderizaLista()
+
   msg.textContent = `Valor aceito: ${converteNumber}`
   input.value = ''
 })
@@ -42,6 +56,8 @@ input.addEventListener('input', () => {
 })
 
 let gastos = carregaArray()
+mostraTotal()
+renderizaLista()
 
 function salvaArray(array) {
   const arrayTrans = JSON.stringify(array)
@@ -70,4 +86,14 @@ calcularTotal(gastos)
 
 function mostraTotal() {
   valorTotal.textContent = calcularTotal(gastos)
+}
+
+function renderizaLista() {
+  container.innerHTML = ''//apaga tudo que esta dentro da div
+
+  gastos.forEach(gasto => {
+    const elementoCriado = document.createElement('p')
+    elementoCriado.textContent = `${gasto.descricao} ${gasto.valor}`
+    container.appendChild(elementoCriado)
+  });
 }
