@@ -1,6 +1,7 @@
 const input = document.querySelector('#input')
 const botao = document.querySelector('#btn')
 const msg = document.querySelector('#mensagem')
+const valorTotal = document.querySelector('#total')
 
 function mensagemDeErro(mensagem) {
   msg.textContent = mensagem
@@ -9,6 +10,13 @@ function mensagemDeErro(mensagem) {
 botao.addEventListener('click', () => {
   const inputValor = input.value.trim()
   const converteNumber = Number(inputValor)
+
+  const valorDigitado = input.value
+
+  const totalGastos = { valor: Number(valorDigitado) }
+  gastos.push(totalGastos)
+  salvaArray(gastos)
+  mostraTotal() //// Atualiza e recalcula o total de gastos a cada validação
 
   if (inputValor === '') {
     mensagemDeErro('Campo vazio!')
@@ -47,8 +55,19 @@ function carregaArray() {
 Se não existir nada, usa um array vazio.
 Converte de texto para array.
 Entrega o array.”*/
-//Json.parse: converte de texto para array
-//JSON.stringify: converte de array para texto
+  //Json.parse: converte de texto para array
+  //JSON.stringify: converte de array para texto
 }
 
 salvaArray(gastos)
+
+function calcularTotal(array) {
+  return array.reduce((acc, gasto) => {
+    return acc + gasto.valor
+  }, 0)
+}
+calcularTotal(gastos)
+
+function mostraTotal() {
+  valorTotal.textContent = calcularTotal(gastos)
+}
