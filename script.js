@@ -4,6 +4,7 @@ const msg = document.querySelector('#mensagem')
 const valorTotal = document.querySelector('#total')
 const container = document.querySelector('#container')
 const inputDescricao = document.querySelector('#descricao')
+const resetar = document.querySelector('#btn-reset')
 
 function mensagemDeErro(mensagem) {
   msg.textContent = mensagem
@@ -97,3 +98,12 @@ function renderizaLista() {
     container.appendChild(elementoCriado)
   });
 }
+
+resetar.addEventListener('click', () => {
+  gastos = []
+  localStorage.removeItem('arrayGastos')
+  renderizaLista()
+  mostraTotal()
+  // Como `gastos` é o estado central do app, ao reatribuí-lo para um array vazio,
+// todo o restante que depende dele (lista, total e persistência) é resetado.
+})
